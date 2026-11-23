@@ -31,10 +31,22 @@ function applySite() {
   }
 }
 applySite();
-fetch("/site.json", { cache: "no-store" }).then((r) => r.json()).then((s) => {
-  for (const k of Object.keys(TOKEN)) if (typeof s[k] === "string" && /^(https:\/\/|0x[0-9a-fA-F]{40}$|$)/.test(s[k])) TOKEN[k] = s[k];
-  applySite();
-}).catch(() => {});
+// Re-read the settings while the page is open, so a contract saved in /admin shows up without a reload.
+const SITE_POLL_MS = 15_000;
+let siteStamp = "";
+async function refreshSite() {
+  try {
+    const s = await (await fetch("/site.json", { cache: "no-store" })).json();
+    const stamp = JSON.stringify(s);
+    if (stamp === siteStamp) return;
+    siteStamp = stamp;
+    for (const k of Object.keys(TOKEN)) if (typeof s[k] === "string" && /^(https:\/\/|0x[0-9a-fA-F]{40}$|$)/.test(s[k])) TOKEN[k] = s[k];
+    applySite();
+  } catch { /* keep what is shown; the next poll retries */ }
+}
+refreshSite();
+setInterval(() => { if (!document.hidden) refreshSite(); }, SITE_POLL_MS);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshSite(); });
 for (const btn of [document.getElementById("lb-copy"), ...document.querySelectorAll("[data-copy-ca]")]) {
   btn?.addEventListener("click", (e) => {
     if (!TOKEN.ca) { e.currentTarget.textContent = "CA soon"; return; }
