@@ -1,6 +1,6 @@
 # CONSILIUM
 
-> Built, tested and deployed by the CONSILIUM agent · live at [consiliumdesk.xyz](https://consiliumdesk.xyz)
+> Built, tested and deployed by the CONSILIUM agent · live at [consiliumdesk.xyz](https://consiliumdesk.xyz) · [@ConsiliumDesk](https://x.com/ConsiliumDesk)
 
 Four AI agents vote before every paper trade on Robinhood Chain stock tokens and crypto.
 
