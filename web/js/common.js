@@ -1,6 +1,6 @@
 // Shared bits for every page: menu, token contract, socials, copy buttons.
 // Contract, Pons, chart, X and GitHub links live in /site.json so launch day needs no code change.
-export const TOKEN = { ca: "", pons: "", chart: "", x: "", github: "" };
+export const TOKEN = { ca: "", pons: "", chart: "", x: "", github: "" };  // data-social="pons" uses TOKEN.pons
 
 const burger = document.querySelector(".burger");
 const nav = document.getElementById("nav");
@@ -35,10 +35,12 @@ fetch("/site.json", { cache: "no-store" }).then((r) => r.json()).then((s) => {
   for (const k of Object.keys(TOKEN)) if (typeof s[k] === "string" && /^(https:\/\/|0x[0-9a-fA-F]{40}$|$)/.test(s[k])) TOKEN[k] = s[k];
   applySite();
 }).catch(() => {});
-document.getElementById("lb-copy")?.addEventListener("click", (e) => {
-  if (!TOKEN.ca) { e.currentTarget.textContent = "Not live yet"; return; }
-  copyText(TOKEN.ca, e.currentTarget);
-});
+for (const btn of [document.getElementById("lb-copy"), ...document.querySelectorAll("[data-copy-ca]")]) {
+  btn?.addEventListener("click", (e) => {
+    if (!TOKEN.ca) { e.currentTarget.textContent = "CA soon"; return; }
+    copyText(TOKEN.ca, e.currentTarget);
+  });
+}
 
 // Logos: stock tiles and CC0 crypto icons shipped with the site; anything else gets a monogram.
 const STOCK_LOGOS = new Set(['AAPL', 'AMD', 'AMZN', 'BABA', 'BE', 'COIN', 'CRCL', 'CRWV', 'GOOGL', 'INTC', 'META', 'MSFT', 'MU', 'NVDA', 'ORCL', 'PLTR', 'QQQ', 'SLV', 'SNDK', 'SPCX', 'SPY', 'TSLA', 'USAR']);

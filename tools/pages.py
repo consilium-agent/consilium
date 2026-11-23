@@ -11,6 +11,7 @@ def header(cur):
     links = [("/app", "Web desk"), ("/docs", "Docs"), ("/download", "Download"), ("/#council", "Council"), ("/#api", "API")]
     nav = "".join(f'<a href="{h}"' + (' aria-current="page"' if h == cur else "") + f">{t}</a>" for h, t in links)
     return f'''<a class="skip" href="#main">Skip to content</a>
+<div class="topbar" role="region" aria-label="Token"><span class="tb-tick">$CONSIL</span><code class="tb-ca" data-ca>CA soon</code><button type="button" class="tb-btn" data-copy-ca>Copy CA</button><a class="tb-btn hot" data-social="pons" href="#token">Buy on Pons ↗</a><a class="tb-link" data-social="x" href="#token">X ↗</a><a class="tb-link" data-social="github" href="#token">GitHub ↗</a></div>
 <header class="hd">
   <div class="wrap">
     <a class="logo" href="/" aria-label="CONSILIUM home">{mark}<span class="rule"></span><span class="word"><b>CONSILIUM</b><i>AGENT DESK</i></span></a>
@@ -162,8 +163,8 @@ APP = '<main id="main" class="deskgrid">\n  <section class="kpis" aria-label="De
 
 NF = '''<main id="main" class="wrap" style="padding:140px 0 160px"><span class="kick">404 · not found</span><h1 class="big" style="margin-top:14px"><span class="line">No quorum</span><span class="line hot">on this page.</span></h1><div class="cta" style="padding:40px 0 0;text-align:left;border:0"><div class="row" style="justify-content:flex-start"><a class="btn solid" href="/">Back to the desk</a><a class="btn" href="/docs">Read the docs</a></div></div></main>'''
 
-page("docs.html", "Docs · CONSILIUM", "Terminal commands, the exact voting rules, the paper ledger and the public API of the CONSILIUM desk.", "/docs", DOCS, ["/js/common.js?v=3", "/js/pages.js?v=1"])
-page("download.html", "Download · CONSILIUM", "Download the CONSILIUM desk for Windows, macOS and Linux, or install it with one line. SHA-256 for every file.", "/download", DOWNLOAD, ["/js/common.js?v=3", "/js/pages.js?v=1"])
-page("app.html", "Web desk · CONSILIUM", "A live four-agent trading desk: watch several Robinhood Chain stock tokens, change the rules the agents vote by, paper-trade the verdicts and ask any agent why.", "/app", APP, ["/vendor/lightweight-charts.js", "/js/common.js?v=5", "/js/app.js?v=6"])
-page("404.html", "Not found · CONSILIUM", "This page does not exist.", "", NF, ["/js/common.js?v=3"])
+page("docs.html", "Docs · CONSILIUM", "Terminal commands, the exact voting rules, the paper ledger and the public API of the CONSILIUM desk.", "/docs", DOCS, ["/js/common.js?v=7", "/js/pages.js?v=1"])
+page("download.html", "Download · CONSILIUM", "Download the CONSILIUM desk for Windows, macOS and Linux, or install it with one line. SHA-256 for every file.", "/download", DOWNLOAD, ["/js/common.js?v=7", "/js/pages.js?v=1"])
+page("app.html", "Web desk · CONSILIUM", "A live four-agent trading desk: watch several Robinhood Chain stock tokens, change the rules the agents vote by, paper-trade the verdicts and ask any agent why.", "/app", APP, ["/vendor/lightweight-charts.js", "/js/common.js?v=7", "/js/app.js?v=6"])
+page("404.html", "Not found · CONSILIUM", "This page does not exist.", "", NF, ["/js/common.js?v=7"])
 print("ok")
