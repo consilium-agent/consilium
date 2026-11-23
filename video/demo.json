@@ -1,0 +1,25 @@
+{
+  "out": "out/consilium-demo.mp4",
+  "size": [1600, 900],
+  "voice": "en-US-ChristopherNeural",
+  "settle": 1200,
+  "brand": { "bg": "#0a0a0b", "fg": "#ece8e1", "acc": "#e2531c", "font": "Hanken Grotesk", "mono": "JetBrains Mono" },
+  "intro": { "kicker": "Consilium · AI trading desk · paper mode", "title": "Four minds.<br><em>One trade.</em>" },
+  "scenes": [
+    { "say": "This is Consilium, an AI trading desk for Robinhood Chain stock tokens. Four agents vote before any paper trade, and the desk is live right on the front page.",
+      "steps": [["goto", "http://127.0.0.1:5120/"], ["until", "document.getElementById('cli-out').innerText.includes('VERDICT')", 60000], ["wait", 1200]] },
+    { "say": "Type a command, just like the terminal app. Here I ask the risk agent why it would veto a market.",
+      "steps": [["type", "#cli-in", "ask --agent risk why would you veto AMD?", 45], ["eval", "document.getElementById('cli-form').requestSubmit()"], ["until", "!document.getElementById('cli-in').disabled", 90000], ["wait", 1500]] },
+    { "say": "Scout reads the trend. Quant reads how stretched the price is. Risk holds a veto nobody can outvote, and Exec walks the live order book.",
+      "steps": [["glide", "#agents .step:nth-child(1)", 0], ["wait", 2600], ["glide", "#agents .step:nth-child(3)", 0], ["wait", 2600], ["glide", "#agents .step:nth-child(4)", 0], ["wait", 2000]] },
+    { "say": "The web desk is live. Every market on the watchlist is re-voted on a timer, and every verdict lands in the activity log.",
+      "steps": [["goto", "http://127.0.0.1:5120/app?s=NVDA"], ["until", "document.querySelector('#b-verdict b')", 60000], ["wait", 2500]] },
+    { "say": "The rules are yours. Load the cautious preset and the quorum moves to four of four, with tighter limits on spread and slippage. The agents vote again with your rules.",
+      "steps": [["click", ".ptabs [data-tab=rules]"], ["wait", 800], ["click", ".presets [data-p=cautious]"], ["wait", 6500]] },
+    { "say": "Then ask any agent directly. Each one answers from its own role, with your rules and live data.",
+      "steps": [["click", ".ptabs [data-tab=agents]"], ["click", "#agent-pick [data-a=risk]"], ["type", "#ask-q", "Would you veto this market under my rules?", 40], ["eval", "document.getElementById('ask-form').requestSubmit()"], ["until", "!document.getElementById('ask-q').disabled", 90000], ["wait", 1500]] },
+    { "say": "Prefer your own machine? Download the Windows app, the zip for Mac and Linux, or install it with one line. Every file comes with its checksum.",
+      "steps": [["goto", "http://127.0.0.1:5120/download"], ["wait", 2500], ["glide", "#rows", 120], ["wait", 2000]] }
+  ],
+  "end": { "title": "Four minds.<br><em>One trade.</em>", "url": "consil council NVDA", "note": "Paper mode. Not financial advice. Not affiliated with Robinhood." }
+}

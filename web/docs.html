@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docs · CONSILIUM</title>
+<meta name="description" content="Terminal commands, the exact voting rules, the paper ledger and the public API of the CONSILIUM desk.">
+<meta property="og:title" content="Docs · CONSILIUM">
+<meta property="og:description" content="Four AI agents vote before every paper trade. Web desk, Windows app, terminal CLI and a public API.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="/img/mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css?v=7">
+<script src="/js/boot.js"></script>
+</head>
+<body class="app">
+<a class="skip" href="#main">Skip to content</a>
+<header class="hd">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="CONSILIUM home"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="5" fill="#ece8e1"/><g fill="#0a0a0b"><rect x="6" y="6" width="6" height="6" rx=".6"/><rect x="13" y="6" width="6" height="6" rx=".6"/><rect x="20" y="6" width="6" height="6" rx=".6"/><rect x="6" y="13" width="6" height="6" rx=".6"/><rect x="6" y="20" width="6" height="6" rx=".6"/><rect x="13" y="20" width="6" height="6" rx=".6"/><rect x="20" y="20" width="6" height="6" rx=".6"/></g><rect x="13" y="13" width="6" height="6" rx=".6" fill="#e2531c"/></svg><span class="rule"></span><span class="word"><b>CONSILIUM</b><i>AGENT DESK</i></span></a>
+    <nav class="nav" id="nav" aria-label="Main"><a href="/app">Web desk</a><a href="/docs" aria-current="page">Docs</a><a href="/download">Download</a><a href="/#council">Council</a><a href="/#api">API</a></nav>
+    <div class="act">
+      <a class="ico" data-social="x" href="#token" aria-label="CONSILIUM on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L2.8 2h6.4l4.4 5.9L18.9 2Zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20Z"/></svg></a>
+      <a class="ico" data-social="github" href="#token" aria-label="CONSILIUM on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7a3.9 3.9 0 0 1 1 2.7c0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg></a>
+      <a class="btn sm" href="/app">Open web desk</a>
+      <a class="btn sm solid" href="/download">Download</a>
+      <button class="burger" type="button" aria-controls="nav" aria-expanded="false" aria-label="Menu"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+<div class="page-head"><div class="wrap"><span class="kick">Documentation · v0.1.0</span><h1>How the desk<br><span class="hot">works.</span></h1></div></div>
+<main id="main" class="wrap doc">
+<nav aria-label="On this page"><a href="#start">Quick start</a><a href="#cli">Terminal commands</a><a href="#vote">How a vote works</a><a href="#ledger">Paper ledger</a><a href="#api">API reference</a><a href="#key">Your own Claude key</a><a href="#self">Run your own desk</a><a href="#data">Data and privacy</a></nav>
+<article>
+<h2 id="start">Quick start</h2>
+<p>CONSILIUM runs in three places with the same four agents: the <a href="/app">web desk</a>, the Windows app and the terminal CLI. Nothing needs an account or a wallet.</p>
+<h3>Windows (no Node needed)</h3>
+<pre><code>irm <span data-site></span>/install.ps1 | iex
+consil council NVDA</code></pre>
+<h3>macOS and Linux (Node.js 20+)</h3>
+<pre><code>curl -fsSL <span data-site></span>/install.sh | sh
+consil council NVDA</code></pre>
+<h3>Any OS with npm</h3>
+<pre><code>npm i -g <span data-site></span>/dl/consil-cli.tgz</code></pre>
+<p>Prefer to download by hand? Every file is on the <a href="/download">download page</a> with its SHA-256.</p>
+
+<h2 id="cli">Terminal commands</h2>
+<table><tr><th>Command</th><th>What it does</th></tr>
+<tr><td><code>consil</code></td><td>Interactive desk. Type a question, or <code>/council NVDA</code>, <code>/markets</code>, <code>/watch NVDA</code>, <code>/ledger</code>, <code>/status</code>, <code>/exit</code>. Follow-up questions can refer to the council you just ran.</td></tr>
+<tr><td><code>consil ask "..."</code></td><td>Streams an answer from the desk. Name a ticker and the desk convenes the council on it first. Answers are in English.</td></tr>
+<tr><td><code>consil ask --agent risk "..."</code></td><td>Ask one agent instead of the chair: <code>scout</code>, <code>quant</code>, <code>risk</code> or <code>exec</code>. Each answers from its own role and numbers.</td></tr>
+<tr><td><code>consil markets [crypto|stocks]</code></td><td>Live markets on Lighter (Robinhood Chain): stock tokens on spot in USDG, and crypto (BTC, ETH, SOL, HYPE and more) on spot or perpetual markets, with 24h change and volume.</td></tr>
+<tr><td><code>consil council NVDA</code></td><td>The four agents vote on one market and the verdict is printed with each agent's case.</td></tr>
+<tr><td><code>consil watch NVDA --every 60</code></td><td>Runs the council on a timer (30 s minimum) and paper-trades every BUY or SELL verdict.</td></tr>
+<tr><td><code>consil ledger [--reset]</code></td><td>Positions, the last fills and equity, marked at the live price.</td></tr>
+<tr><td><code>consil key sk-ant-...</code></td><td>Use your own Claude key for answers and agent cases. <code>consil key --clear</code> removes it.</td></tr>
+<tr><td><code>consil status</code></td><td>Checks market data, the desk API and which answer source is active.</td></tr>
+</table>
+<p>Options: <code>--api &lt;url&gt;</code> or <code>CONSIL_API</code> points at another desk server, <code>NO_COLOR=1</code> prints plain text, <code>CONSIL_HOME</code> moves the data folder.</p>
+
+<h2 id="vote">How a vote works</h2>
+<p>All four votes are plain code. Claude only writes each agent's one-line case from the numbers and cannot change a vote or the verdict.</p>
+<table><tr><th>Agent</th><th>Reads</th><th>Votes</th></tr>
+<tr><td>SCOUT</td><td>EMA20 against EMA50 on 1h candles, and the 24h change</td><td>BUY when EMA20 is more than 0.15% above EMA50 and the day is not down more than 1%. SELL in the mirror case. Otherwise HOLD.</td></tr>
+<tr><td>QUANT</td><td>RSI14 on 1h candles</td><td>BUY under 35, SELL over 65, otherwise HOLD.</td></tr>
+<tr><td>RISK</td><td>Market status, spread, 24h volume, hourly volatility</td><td>APPROVE only if the market is open, the spread is at most 40 bps, 24h volume is at least $5,000 and hourly volatility over the last day is at most 3.5%. Otherwise VETO.</td></tr>
+<tr><td>EXEC</td><td>The live order book</td><td>Walks the book for a 250 USDG ticket in the trade's direction. READY if it fills with at most 50 bps slippage, otherwise BLOCK.</td></tr>
+</table>
+<p>The direction comes from SCOUT and QUANT. If they point opposite ways there is no trade. A RISK veto or an EXEC block always stops the trade. Otherwise at least 3 of the 4 agents must be behind it.</p>
+<h3>Change the rules</h3>
+<p>Every number above is a rule you can change on the <a href="/app">web desk</a> (Rules tab, or the Cautious, Balanced and Aggressive presets) or through the API. The server clamps each value to its range:</p>
+<table><tr><th>Rule</th><th>Default</th><th>Range</th></tr>
+<tr><td><code>quorum</code></td><td>3</td><td>2 to 4 agents</td></tr>
+<tr><td><code>emaGapPct</code></td><td>0.15</td><td>0.02 to 2</td></tr>
+<tr><td><code>rsiBuy</code> / <code>rsiSell</code></td><td>35 / 65</td><td>10 to 50 / 50 to 90</td></tr>
+<tr><td><code>maxSpreadBps</code></td><td>40</td><td>2 to 300</td></tr>
+<tr><td><code>maxVolPct</code></td><td>3.5</td><td>0.2 to 15</td></tr>
+<tr><td><code>minVolumeUsd</code></td><td>5,000</td><td>0 to 1,000,000</td></tr>
+<tr><td><code>ticketUsd</code></td><td>250</td><td>10 to 10,000</td></tr>
+<tr><td><code>maxSlipBps</code></td><td>50</td><td>2 to 500</td></tr></table>
+
+<h2 id="ledger">Paper ledger</h2>
+<p>Every account starts with 1,000 USDG of paper cash. A BUY verdict opens a 250 USDG position at EXEC's average fill price if you hold none; a SELL verdict closes it. No order is ever sent.</p>
+<p>The terminal app stores the ledger in <code>~/.consilium/ledger.json</code>. The web desk stores it in your browser.</p>
+
+<h2 id="api">API reference</h2>
+<p>Public, read-only, JSON. Rate limits: 240 requests a minute per IP, 20 questions per 10 minutes.</p>
+<h3>GET /v1/markets?asset=crypto</h3>
+<p><code>asset</code> is optional: <code>stock</code> or <code>crypto</code>. Crypto uses whichever Lighter market trades more for that coin, spot or perpetual; paper trades on perps are long or flat, no leverage.</p>
+<pre><code>{ "ok": true, "markets": [ { "symbol": "BTC", "pair": "BTC-PERP", "asset": "crypto", "kind": "perp", "last": 61325.4, "change24hPct": 1.01, "dayVolumeUsd": 144946450, "tier": "liquid" } ] }</code></pre>
+<h3>GET /v1/council/:symbol</h3>
+<pre><code>{ "ok": true, "council": {
+  "symbol": "NVDA", "price": 136.14, "quorum": 3,
+  "votes": { "scout": { "vote": "BUY", "facts": { "ema20": 134.37, "ema50": 134.01 } }, "quant": { ... }, "risk": { ... }, "exec": { ... } },
+  "verdict": { "action": "BUY", "behind": 3, "reason": "3 of 4 agents agree." },
+  "brief": { "scout": "...", "quant": "...", "risk": "...", "exec": "...", "chair": "..." } } }</code></pre>
+<p>Add any rule as a query parameter to vote with your own rules, for example <code>/v1/council/NVDA?quorum=4&amp;maxSpreadBps=20</code>. Add <code>brief=0</code> to skip the agents' written case (faster, used by the live watchlist).</p>
+<h3>GET /v1/rules</h3>
+<p>The default rules and the <code>[default, min, max]</code> range of each.</p>
+<h3>GET /v1/candles/:symbol?res=1h&amp;count=300</h3>
+<p>Candles from Lighter. <code>res</code> is one of 1m, 5m, 15m, 1h, 4h, 1d; <code>count</code> 10 to 500. The web desk polls this every 5 seconds to keep its chart live.</p>
+<h3>POST /v1/ask</h3>
+<p>Body <code>{"question": "...", "agent": "risk", "rules": {"quorum": 4}, "history": [{"role":"user","content":"..."},{"role":"assistant","content":"..."}]}</code>; <code>agent</code> (chair, scout, quant, risk, exec) and <code>rules</code> are optional, question up to 600 characters. The answer streams as server-sent events: <code>context</code>, then <code>text</code> chunks, then <code>done</code> or <code>error</code>.</p>
+<pre><code>curl -N <span data-site></span>/v1/ask -H "content-type: application/json" \
+  -d '{"question":"Why would RISK veto AMD?"}'</code></pre>
+<h3>GET /v1/health</h3>
+<p>Version, mode (always <code>paper</code>) and whether the model is online.</p>
+
+<h2 id="key">Your own Claude key</h2>
+<p>By default the app asks our desk API. With <code>consil key sk-ant-...</code> the app talks to Claude directly with your key, so questions never pass through our server. The key is saved in <code>~/.consilium/config.json</code>, readable only by your user.</p>
+
+<h2 id="self">Run your own desk</h2>
+<pre><code>git clone &lt;your copy&gt; consilium &amp;&amp; cd consilium
+npm install
+ANTHROPIC_API_KEY=sk-ant-... npm start      # http://127.0.0.1:5120
+node cli/build.mjs --api https://your-desk.example   # rebuild the downloads</code></pre>
+<p>Set <code>SITE_URL</code> so the install scripts point at your domain, and <code>TRUST_PROXY=1</code> behind a reverse proxy.</p>
+
+<h2 id="data">Data and privacy</h2>
+<p>Market data is Lighter's public, read-only API for Robinhood Chain. The desk keeps no accounts and no wallets. Questions sent to the desk API are passed to Claude to write the answer and are not stored by the desk. Paper mode only: this is not financial advice and CONSILIUM is not affiliated with Robinhood.</p>
+</article>
+</main>
+<footer class="ft"><div class="wrap"><span>CONSILIUM · paper-mode AI trading desk · Not financial advice · Not affiliated with Robinhood</span><span><a href="/docs">Docs</a><a href="/download">Download</a><a href="/app">Web desk</a><a data-social="x" href="#token">X</a><a data-social="github" href="#token">GitHub</a><a href="/dl/SHA256SUMS.txt">Checksums</a></span></div></footer>
+<script type="module" src="/js/common.js?v=3"></script>
+<script type="module" src="/js/pages.js?v=1"></script>
+</body>
+</html>

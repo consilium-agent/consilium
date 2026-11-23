@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CONSILIUM · Four agents. One trade.</title>
+<meta name="description" content="An AI trading desk for Robinhood Chain stock tokens. Four agents vote before every paper trade and the risk agent can veto. Use it on the web, as a download, or in your terminal.">
+<meta property="og:title" content="CONSILIUM · Four agents. One trade.">
+<meta property="og:description" content="Four AI agents vote before every paper trade. Web desk, Windows app, terminal CLI and a public API.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="/img/mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css?v=7">
+<script src="/js/boot.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<canvas id="stage" aria-hidden="true"></canvas>
+<div class="spot" aria-hidden="true"></div>
+<div class="specks" aria-hidden="true"></div>
+
+<header class="hd sw" data-label="header frame">
+  <div class="wrap">
+    <a class="logo sw" href="/" aria-label="CONSILIUM home" data-label="logo">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="5" fill="#ece8e1"/><g fill="#0a0a0b"><rect x="6" y="6" width="6" height="6" rx=".6"/><rect x="13" y="6" width="6" height="6" rx=".6"/><rect x="20" y="6" width="6" height="6" rx=".6"/><rect x="6" y="13" width="6" height="6" rx=".6"/><rect x="6" y="20" width="6" height="6" rx=".6"/><rect x="13" y="20" width="6" height="6" rx=".6"/><rect x="20" y="20" width="6" height="6" rx=".6"/></g><rect x="13" y="13" width="6" height="6" rx=".6" fill="#e2531c"/></svg>
+      <span class="rule"></span>
+      <span class="word"><b>CONSILIUM</b><i>AGENT DESK</i></span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a class="sw" href="/#agents">Agents</a>
+      <a class="sw" href="/#council">Council</a>
+      <a class="sw" href="/#demo">Demo</a>
+      <a class="sw" href="/#terminal">Terminal</a>
+      <a class="sw" href="/#api">API</a>
+      <a class="sw" href="/docs">Docs</a>
+      <a class="sw" href="/#token">$CONSIL</a>
+    </nav>
+    <div class="act">
+      <a class="ico sw" data-social="x" href="#token" aria-label="CONSILIUM on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L2.8 2h6.4l4.4 5.9L18.9 2Zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20Z"/></svg></a>
+      <a class="ico sw" data-social="github" href="#token" aria-label="CONSILIUM on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7a3.9 3.9 0 0 1 1 2.7c0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg></a>
+      <a class="btn sm sw" href="/app">Open web desk</a>
+      <a class="btn sm solid sw" href="/download">Download</a>
+      <button class="burger sw" type="button" aria-controls="nav" aria-expanded="false" aria-label="Menu"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+
+<div class="meta">
+  <div class="wrap">
+    <span class="sw">SYS://CONSILIUM.DESK</span>
+    <span class="mid sw">Robinhood Chain · stocks + crypto, paper mode</span>
+    <span class="sw" id="tick">Loading markets</span>
+  </div>
+</div>
+
+<main id="main">
+  <section class="hero gridbg" id="top" data-form="0">
+    <div class="wrap hero-grid">
+      <div class="copy">
+        <span class="tag dark sw" data-label="kicker">Robinhood Chain · AI trading desk</span>
+        <h1 class="sw" data-label="headline"><span>Four minds.</span><span>One trade.</span></h1>
+        <p class="lede sw" data-label="lede">Four AI agents vote on Robinhood Chain stock tokens and crypto, from NVDA to BTC. Nothing trades without three votes. Type a command below, then run the same desk in your terminal.</p>
+        <div class="hero-cta">
+          <a class="btn solid sw" href="/app" data-label="web desk button">01 / Open the web desk</a>
+          <a class="btn sw" href="/download" data-label="download button">Download ↓</a>
+        </div>
+        <div class="term live sw" data-label="live CLI">
+          <div class="chrome"><i></i><i></i><i></i><span>consil · live desk</span><span class="pill live" style="margin-left:auto">Live</span></div>
+        <pre id="cli-out" aria-live="polite"></pre>
+        <form id="cli-form" class="cli-in"><label for="cli-in" class="ps">consil ›</label><input id="cli-in" autocomplete="off" spellcheck="false" maxlength="600" placeholder="council NVDA"></form>
+        <div class="cli-chips"><button type="button" data-cli="council NVDA">council NVDA</button><button type="button" data-cli="council BTC">council BTC</button><button type="button" data-cli="markets crypto">markets crypto</button><button type="button" data-cli="ask --agent risk why would you veto AMD?">ask --agent risk</button><button type="button" data-cli="help">help</button></div>
+      </div>
+      </div>
+      <div class="side">
+        <div class="ca sw" data-label="token contract">
+          <div><div class="k">$CONSIL contract · Robinhood Chain</div><div class="v" id="lb-ca" data-ca>Not live yet</div></div>
+          <button class="btn sm" id="lb-copy" type="button">Copy</button>
+          <a class="btn sm brass" id="lb-buy" href="#token">Buy on Pons ↗</a>
+          <a id="lb-chart" href="#token" hidden>Chart</a>
+          <div class="ca-links">
+            <a data-social="x" href="#token"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L2.8 2h6.4l4.4 5.9L18.9 2Zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20Z"/></svg><span>X</span><em>Soon</em></a>
+            <a data-social="github" href="#token"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7a3.9 3.9 0 0 1 1 2.7c0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg><span>GitHub</span><em>Soon</em></a>
+            <a id="lb-chart2" data-social="chart" href="#token"><span>Chart</span><em>Soon</em></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="problem" data-form="1">
+    <div class="wrap split">
+      <div>
+        <h2 class="big sw" data-label="problem heading"><span class="line">One bot.</span><span class="line hot">One bad fill.</span></h2>
+        <p class="lead sw" data-label="problem copy">A single trading model sees a signal and fires. It never asks whether the book can take the size, whether the spread just blew out, or whether a second read disagrees. CONSILIUM makes every trade survive four checks first.</p>
+      </div>
+      <article class="case sw" data-label="case card">
+        <span class="kick">Thin book · Demo with sample numbers</span>
+        <h3>The 3 a.m. breakout.</h3>
+        <p>A token jumps 4% on a handful of trades. SCOUT says buy, QUANT agrees. RISK sees the spread at 120 bps and vetoes. A veto cannot be outvoted, so the desk holds. Twenty minutes later the move is gone.</p>
+        <div class="foot"><span>2 for · RISK veto</span><span class="ember">Desk held · 0 lost</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="tall" id="agents">
+    <div class="wrap">
+      <div class="step" data-form="2"><div>
+        <span class="who sw" style="background:var(--scout)" data-label="scout tag">SCOUT</span>
+        <h3 class="sw" data-label="scout heading">Reads the trend.</h3>
+        <p class="sw" data-label="scout copy">EMA20 against EMA50 on hourly candles, plus the 24 hour move. Votes BUY, SELL or HOLD and says why in one line.</p>
+        <div class="rule sw" style="--p:25%">Agent 1 of 4 · direction</div>
+      </div></div>
+      <div class="step" data-form="3"><div>
+        <span class="who sw" style="background:var(--quant)" data-label="quant tag">QUANT</span>
+        <h3 class="sw" data-label="quant heading">Reads the stretch.</h3>
+        <p class="sw" data-label="quant copy">RSI14 on the same candles. Under 35 it leans buy, over 65 it leans sell. When SCOUT and QUANT point opposite ways there is no trade.</p>
+        <div class="rule sw" style="--p:50%">Agent 2 of 4 · direction</div>
+      </div></div>
+      <div class="step" data-form="4"><div>
+        <span class="who sw" style="background:var(--risk)" data-label="risk tag">RISK</span>
+        <h3 class="sw" data-label="risk heading">Holds the veto.</h3>
+        <p class="sw" data-label="risk copy">Market open, spread under 40 bps, real 24 hour volume, hourly volatility under 3.5%. If any check fails RISK vetoes, and nothing outvotes a veto.</p>
+        <div class="rule sw" style="--p:75%">Agent 3 of 4 · limits</div>
+      </div></div>
+      <div class="step" data-form="5"><div>
+        <span class="who sw" style="background:var(--exec)" data-label="exec tag">EXEC</span>
+        <h3 class="sw" data-label="exec heading">Walks the book.</h3>
+        <p class="sw" data-label="exec copy">Prices a 250 USDG ticket against the live order book, level by level. Above 50 bps of slippage it blocks. Three of four behind the trade, or it does not happen.</p>
+        <div class="rule sw" style="--p:100%">Agent 4 of 4 · execution</div>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="council" data-form="6">
+    <div class="wrap split">
+      <div>
+        <h2 class="big sw" data-label="council heading"><span class="line">Every trade</span><span class="line hot">gets a vote.</span></h2>
+        <p class="lead sw" data-label="council copy">This board is live. The numbers come from Lighter's public order book on Robinhood Chain; Claude writes each agent's case from those numbers and cannot change the verdict.</p>
+        <div class="rows sw" data-label="rules table">
+          <div><span>Quorum</span><span>3 of 4 agents</span></div>
+          <div><span>Veto</span><span>RISK, cannot be outvoted</span></div>
+          <div><span>Paper ticket</span><span>250 USDG</span></div>
+          <div><span>Data</span><span>Lighter spot + perps, read-only</span></div>
+        </div>
+        <a class="btn ink sw" style="margin-top:28px" href="/app">Run it on any market</a>
+      </div>
+      <div class="board sw" data-label="live council" id="board">
+        <div class="top"><span>CONSILIUM · live council</span><span class="pill live">Live</span></div>
+        <div class="sym"><small id="b-pair">Loading</small><b id="b-sym">----</b><em id="b-px"></em></div>
+        <div class="tabs" id="b-tabs" role="group" aria-label="Market"></div>
+        <div id="b-votes"><div class="skel">Convening the agents</div></div>
+        <div class="verdict" id="b-verdict"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="demo" data-form="7">
+    <div class="wrap">
+      <h2 class="big sw" data-label="demo heading"><span class="line">Watch it</span><span class="line hot">run.</span></h2>
+      <p class="lead sw" data-label="demo copy">Ninety seconds on the real desk: the live CLI, a question to the risk agent, the live web desk, a stricter rule set and a chat with one agent.</p>
+      <div class="player sw" style="margin-top:36px" data-label="demo video">
+        <video id="vid" controls preload="metadata" playsinline poster="/media/demo-poster.jpg">
+          <source src="/media/demo.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="chapters sw" data-label="chapters" id="chapters">
+        <button type="button" data-t="2.4">Live CLI</button>
+        <button type="button" data-t="14.9">Ask an agent</button>
+        <button type="button" data-t="25.7">The four agents</button>
+        <button type="button" data-t="37.7">Live web desk</button>
+        <button type="button" data-t="47.6">Your own rules</button>
+        <button type="button" data-t="60.5">Agent chat</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="ask" data-form="8">
+    <div class="wrap split">
+      <div>
+        <h2 class="big sw" data-label="ask heading"><span class="line">Ask the</span><span class="line hot">desk.</span></h2>
+        <p class="lead sw" data-label="ask copy">Questions go to the same API the app and the terminal use. Name a ticker and the desk convenes the council before it answers.</p>
+        <div class="chips sw" data-label="suggestions" id="chips">
+          <button type="button">Should the desk buy NVDA right now?</button>
+          <button type="button">Which market has the tightest spread today?</button>
+          <button type="button">Why would RISK veto a trade on AMD?</button>
+          <button type="button">Compare SPY and QQQ for me.</button>
+        </div>
+      </div>
+      <div class="console sw" data-label="ask console">
+        <div class="bar"><span>consil › ask</span><span id="ask-state">Ready</span></div>
+        <div class="log" id="ask-log" aria-live="polite">
+          <div class="msg desk"><div class="who2">Consilium</div><div class="body">Ask about any Robinhood Chain stock token. Answers use live Lighter data. Paper mode, not financial advice.</div></div>
+        </div>
+        <form id="ask-form">
+          <label class="skip" for="ask-q">Your question</label>
+          <input id="ask-q" name="q" maxlength="600" autocomplete="off" placeholder="Ask the desk anything">
+          <button type="submit">Ask</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="terminal" data-form="9">
+    <div class="wrap split">
+      <div>
+        <h2 class="big sw" data-label="terminal heading"><span class="line">Run it in</span><span class="line hot">your terminal.</span></h2>
+        <p class="lead sw" data-label="terminal copy">The app runs the four agents on your machine, straight against Lighter's public API. Answers come from our desk API, or from Claude with your own key.</p>
+        <div class="install sw" data-label="install tabs">
+          <div class="tabs" role="group" aria-label="Platform" id="os-tabs">
+            <button type="button" aria-pressed="true" data-os="win">Windows</button>
+            <button type="button" aria-pressed="false" data-os="unix">macOS · Linux</button>
+            <button type="button" aria-pressed="false" data-os="npm">npm</button>
+          </div>
+          <button class="copybtn" type="button" id="os-copy">Copy</button>
+          <pre id="os-cmd"></pre>
+        </div>
+        <div class="cmds sw" data-label="commands">
+          <code>consil</code><span>interactive desk</span>
+          <code>consil council NVDA</code><span>four agents vote on one market</span>
+          <code>consil watch NVDA</code><span>paper-trade on every verdict</span>
+          <code>consil ask "..."</code><span>stream an answer from the desk</span>
+          <code>consil ledger</code><span>paper fills and P&amp;L</span>
+        </div>
+      </div>
+      <div class="term sw" data-label="terminal window">
+        <div class="chrome"><i></i><i></i><i></i><span>consil · paper mode</span></div>
+        <pre id="term-out"></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="download" data-form="10">
+    <div class="wrap">
+      <h2 class="big sw" data-label="download heading"><span class="line">Three ways</span><span class="line hot">in.</span></h2>
+      <p class="lead sw" data-label="download copy">Same four agents, same rules, same paper ledger format. Pick where you want them.</p>
+      <div class="dl" id="dl-rows">
+        <div class="r sw" data-label="windows app"><div><b>Windows app</b><small>consil.exe · no Node needed</small></div><div class="f" data-file="consil-win-x64.exe">x64 · standalone</div><div class="f" data-size="consil-win-x64.exe"></div><a class="btn solid" href="/dl/consil-win-x64.exe">Download .exe</a></div>
+        <div class="r sw" data-label="mac linux zip"><div><b>macOS · Linux</b><small>zip · needs Node.js 20+</small></div><div class="f" data-file="consil-node.zip">consil + consil.cmd launchers</div><div class="f" data-size="consil-node.zip"></div><a class="btn" href="/dl/consil-node.zip">Download .zip</a></div>
+        <div class="r sw" data-label="web desk"><div><b>Web desk</b><small>nothing to install</small></div><div class="f">Council, ask and a paper ledger in your browser</div><div class="f">0 MB</div><a class="btn ink" href="/app">Open web desk</a></div>
+      </div>
+      <p class="kick sw" style="margin-top:18px" data-label="checksums">Verify every file against <a href="/dl/SHA256SUMS.txt">SHA256SUMS.txt</a> · <a href="/download">all downloads</a></p>
+    </div>
+  </section>
+
+  <section class="sec" id="api" data-form="11">
+    <div class="wrap">
+      <h2 class="big sw" data-label="api heading"><span class="line">One API.</span><span class="line hot">Three doors.</span></h2>
+      <p class="lead sw" data-label="api copy">The web desk, the app and the terminal all call the same public endpoints. Build your own front end on them.</p>
+      <div class="api sw" data-label="endpoints">
+        <div class="e"><span class="m">GET</span><code>/v1/markets</code><span>Spot markets in USDG with 24h change and volume</span></div>
+        <div class="e"><span class="m">GET</span><code>/v1/council/:symbol</code><span>Four votes, the verdict and each agent's case</span></div>
+        <div class="e"><span class="m">GET</span><code>/v1/candles/:symbol</code><span>Hourly candles from Lighter (res=5m to 1d)</span></div>
+        <div class="e"><span class="m">POST</span><code>/v1/ask</code><span>Question in, streamed answer out (server-sent events)</span></div>
+      </div>
+      <pre class="curl sw" data-label="curl example" id="curl"></pre>
+    </div>
+  </section>
+
+  <section class="sec" id="numbers" data-form="12">
+    <div class="wrap">
+      <h2 class="big sw" data-label="rules heading"><span class="line">Small rules.</span><span class="line hot">No exceptions.</span></h2>
+      <div class="nums sw" data-label="rule numbers">
+        <div><b>3/4</b><small>agents behind every trade</small></div>
+        <div><b>1</b><small>veto that cannot be outvoted</small></div>
+        <div><b>40</b><small>bps max spread before RISK vetoes</small></div>
+        <div><b>0</b><small>keys, wallets or real orders in paper mode</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="token" data-form="13">
+    <div class="wrap split">
+      <div>
+        <h2 class="big sw" data-label="token heading"><span class="line">$CONSIL.</span><span class="line hot">Not live yet.</span></h2>
+        <p class="lead sw" data-label="token copy">$CONSIL launches on Pons on Robinhood Chain. The contract address appears here and in the header the moment it exists. Until then, any address claiming to be CONSILIUM is not ours.</p>
+      </div>
+      <div class="rows sw" data-label="token facts" style="margin-top:0">
+        <div><span>Chain</span><span>Robinhood Chain</span></div>
+        <div><span>Launchpad</span><span>Pons</span></div>
+        <div><span>Contract</span><span data-ca>Not live yet</span></div>
+        <div><span>Product</span><span>Live today, paper mode</span></div>
+        <div><span>Affiliation</span><span>Not affiliated with Robinhood</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="roadmap" data-form="14">
+    <div class="wrap">
+      <h2 class="big sw" data-label="roadmap heading"><span class="line">Paper first.</span><span class="line hot">Then real.</span></h2>
+      <div class="road">
+        <div class="now sw" data-label="week 1"><small>Now · live</small><b>Paper desk</b><p>Four agents, live council, ask API, web desk, Windows app and terminal CLI.</p></div>
+        <div class="sw" data-label="week 2"><small>Next</small><b>Signed verdicts</b><p>Every council hashed and signed so anyone can replay how a vote was reached.</p></div>
+        <div class="sw" data-label="week 3"><small>Planned</small><b>Your own limits</b><p>Set the quorum, the veto lines and the ticket size per market.</p></div>
+        <div class="sw" data-label="week 4"><small>Planned</small><b>Live orders</b><p>Opt-in execution on Lighter with a key you control and hard daily caps.</p></div>
+      </div>
+      <div class="qa">
+        <div class="sw" data-label="faq"><b>Does it trade real money?</b><p>No. Every fill is paper: the desk prices it against the live order book and records it, but no order is sent.</p></div>
+        <div class="sw" data-label="faq"><b>Which AI runs it?</b><p>The votes are plain code you can read. Claude writes each agent's case and answers questions; it cannot change a verdict.</p></div>
+        <div class="sw" data-label="faq"><b>Do I need an API key?</b><p>No. The app uses our desk API by default. Add your own Claude key with consil key if you prefer.</p></div>
+        <div class="sw" data-label="faq"><b>Where is my data?</b><p>The app keeps your paper ledger in ~/.consilium on your machine. The web desk keeps it in your browser.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta gridbg" data-form="15">
+    <div class="wrap">
+      <h2 class="big sw" data-label="closing line"><span class="line">Let four minds</span><span class="line hot">check the next one.</span></h2>
+      <div class="row">
+        <a class="btn solid sw" href="/download">Download the app</a>
+        <a class="btn sw" href="/app">Open the web desk</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="ft">
+  <div class="wrap">
+    <span>CONSILIUM · paper-mode AI trading desk · Not financial advice · Not affiliated with Robinhood</span>
+    <span><a href="/docs">Docs</a><a href="/download">Download</a><a href="/app">Web desk</a><a data-social="x" href="#token">X</a><a data-social="github" href="#token">GitHub</a><a href="/dl/SHA256SUMS.txt">Checksums</a></span>
+  </div>
+  <div class="giant" aria-hidden="true">Consilium</div>
+</footer>
+
+<div class="swarm" id="swarm" aria-hidden="true"></div>
+<div class="hud" id="hud" hidden>
+  <span class="dot"></span><span class="txt">Consilium: 4 agents online</span>
+  <button type="button" id="hud-pause">Pause</button>
+  <button type="button" id="hud-replay">Replay</button>
+</div>
+
+<script type="module" src="/js/common.js?v=5"></script>
+<script type="module" src="/js/swarm.js?v=3"></script>
+<script type="module" src="/js/voxels.js?v=3"></script>
+<script type="module" src="/js/home.js?v=5"></script>
+<script type="module" src="/js/term.js?v=4"></script>
+</body>
+</html>

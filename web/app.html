@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web desk · CONSILIUM</title>
+<meta name="description" content="A live four-agent trading desk: watch several Robinhood Chain stock tokens, change the rules the agents vote by, paper-trade the verdicts and ask any agent why.">
+<meta property="og:title" content="Web desk · CONSILIUM">
+<meta property="og:description" content="Four AI agents vote before every paper trade. Web desk, Windows app, terminal CLI and a public API.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="/img/mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css?v=7">
+<script src="/js/boot.js"></script>
+</head>
+<body class="app">
+<a class="skip" href="#main">Skip to content</a>
+<header class="hd">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="CONSILIUM home"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="5" fill="#ece8e1"/><g fill="#0a0a0b"><rect x="6" y="6" width="6" height="6" rx=".6"/><rect x="13" y="6" width="6" height="6" rx=".6"/><rect x="20" y="6" width="6" height="6" rx=".6"/><rect x="6" y="13" width="6" height="6" rx=".6"/><rect x="6" y="20" width="6" height="6" rx=".6"/><rect x="13" y="20" width="6" height="6" rx=".6"/><rect x="20" y="20" width="6" height="6" rx=".6"/></g><rect x="13" y="13" width="6" height="6" rx=".6" fill="#e2531c"/></svg><span class="rule"></span><span class="word"><b>CONSILIUM</b><i>AGENT DESK</i></span></a>
+    <nav class="nav" id="nav" aria-label="Main"><a href="/app" aria-current="page">Web desk</a><a href="/docs">Docs</a><a href="/download">Download</a><a href="/#council">Council</a><a href="/#api">API</a></nav>
+    <div class="act">
+      <a class="ico" data-social="x" href="#token" aria-label="CONSILIUM on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L2.8 2h6.4l4.4 5.9L18.9 2Zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20Z"/></svg></a>
+      <a class="ico" data-social="github" href="#token" aria-label="CONSILIUM on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7a3.9 3.9 0 0 1 1 2.7c0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg></a>
+      <a class="btn sm" href="/app">Open web desk</a>
+      <a class="btn sm solid" href="/download">Download</a>
+      <button class="burger" type="button" aria-controls="nav" aria-expanded="false" aria-label="Menu"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+<main id="main" class="deskgrid">
+  <section class="kpis" aria-label="Desk summary"><div class="kpi"><i class="kico">$</i><div><small>Paper equity</small><b id="k-eq">1,000.00</b><em id="k-eq2">USDG · since start</em></div></div><div class="kpi"><i class="kico">◧</i><div><small>Open positions</small><b id="k-pos">0</b><em id="k-pos2">No open trades</em></div></div><div class="kpi wide"><i class="kico">✓</i><div><small>Watchlist verdicts</small><div class="vbar" id="k-vbar"><span class="b" style="flex:0"></span><span class="s" style="flex:0"></span><span class="h" style="flex:1"></span></div><em id="k-vd">Waiting for the first vote</em></div></div><div class="kpi"><i class="kico">↯</i><div><small>Last paper fill</small><b id="k-fill">None yet</b><em id="k-fill2">Turn on auto paper-trade</em></div></div><div class="kpi"><i class="kico">≡</i><div><small>Rules</small><b id="k-rules">Default</b><em id="k-rules2">Quorum 3 of 4</em></div></div></section>
+  <aside class="pane">
+    <h2>Watchlist <span class="pill live" id="live-pill">Live</span></h2>
+    <div class="watch" id="watch" role="list"></div>
+    <div class="addrow"><label class="skip" for="add">Add a market</label><select id="add"><option value="">+ Add market</option></select></div>
+    <p class="kick pad">Every market on the list is re-voted on each tick with your rules.</p>
+  </aside>
+  <section class="center">
+    <div class="symhead">
+      <div class="symid"><span id="d-logo"></span><div><small class="kick" id="d-pair">Lighter spot · USDG</small><b id="d-sym">----</b></div></div>
+      <span id="d-px"></span>
+    </div>
+    <div class="chart live-chart"><div id="chart" aria-label="Live price chart. Drag to pan, scroll to zoom."></div><div class="legend" id="legend"></div><div class="res" id="res" role="group" aria-label="Candle size"><button type="button" data-r="1m">1m</button><button type="button" data-r="5m">5m</button><button type="button" data-r="15m">15m</button><button type="button" data-r="1h" aria-pressed="true">1h</button><button type="button" data-r="4h">4h</button><button type="button" data-r="1d">1d</button><span class="sep"></span><button type="button" id="fit" title="Fit all candles">Fit</button><button type="button" id="now" title="Jump to the latest candle">Now</button></div></div>
+    <div class="ctl">
+      <button class="btn solid" type="button" id="run">Convene now</button>
+      <label class="switch"><input type="checkbox" id="live" checked> Live</label>
+      <label class="switch">every <select id="every"><option value="30">30 s</option><option value="60" selected>60 s</option><option value="120">2 min</option></select></label>
+      <label class="switch"><input type="checkbox" id="auto"> Auto paper-trade</label>
+      <span class="kick" id="tick-state"></span>
+    </div>
+    <div class="board" id="board">
+      <div class="top"><span>Council <span id="rules-tag" class="pill" hidden>Custom rules</span></span><span class="pill" id="d-when">Not run yet</span></div>
+      <div id="b-votes"><div class="skel">Convening the agents</div></div>
+      <div class="verdict" id="b-verdict"></div>
+    </div>
+    <div class="board">
+      <div class="top"><span>Activity</span><span class="kick" id="log-n"></span></div>
+      <div class="activity" id="activity" aria-live="polite"><div class="skel">The log fills as the agents vote.</div></div>
+    </div>
+  </section>
+  <aside class="pane side-pane">
+    <div class="ptabs" role="tablist">
+      <button type="button" role="tab" aria-selected="true" data-tab="agents">Agents</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="rules">Rules</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="ledger">Ledger</button>
+    </div>
+    <div class="tabpane" id="tab-agents">
+      <div class="agent-pick" id="agent-pick" role="group" aria-label="Who answers">
+        <button type="button" data-a="chair" aria-pressed="true">Chair</button>
+        <button type="button" data-a="scout" aria-pressed="false" style="--c:var(--scout)">SCOUT</button>
+        <button type="button" data-a="quant" aria-pressed="false" style="--c:var(--quant)">QUANT</button>
+        <button type="button" data-a="risk" aria-pressed="false" style="--c:var(--risk)">RISK</button>
+        <button type="button" data-a="exec" aria-pressed="false" style="--c:var(--exec)">EXEC</button>
+      </div>
+      <p class="kick pad" id="agent-role">The chair speaks for all four agents and the verdict.</p>
+      <div class="console agent-chat">
+        <div class="log" id="ask-log" aria-live="polite"><div class="msg desk"><div class="who2">Chair</div><div class="body">Ask about the market on screen, your rules, or why an agent voted the way it did. Answers are in English and use live data.</div></div></div>
+        <form id="ask-form"><label class="skip" for="ask-q">Your question</label><input id="ask-q" maxlength="600" autocomplete="off" placeholder="Ask the chair"><button type="submit">Ask</button></form>
+      </div>
+    </div>
+    <div class="tabpane" id="tab-rules" hidden>
+      <div class="presets" role="group" aria-label="Presets"><button type="button" data-p="cautious">Cautious</button><button type="button" data-p="balanced">Balanced</button><button type="button" data-p="aggressive">Aggressive</button></div>
+      <form class="rules" id="rules"></form>
+      <p class="kick pad">Saved in this browser. Changes apply on the next vote; the server clamps every value to its range.</p>
+    </div>
+    <div class="tabpane" id="tab-ledger" hidden>
+      <div class="ledger">
+        <div class="eq"><small>Equity · USDG</small><b id="eq">1,000.00</b><small id="eq-sub"></small></div>
+        <div id="pos"></div>
+        <div class="fills" id="fills"></div>
+        <button class="btn sm" type="button" id="reset">Reset ledger</button>
+        <p class="kick">Stored in this browser only. Paper fills priced on the live book; no orders are sent.</p>
+      </div>
+    </div>
+  </aside>
+</main>
+<footer class="ft"><div class="wrap"><span>CONSILIUM · paper-mode AI trading desk · Not financial advice · Not affiliated with Robinhood</span><span><a href="/docs">Docs</a><a href="/download">Download</a><a href="/app">Web desk</a><a data-social="x" href="#token">X</a><a data-social="github" href="#token">GitHub</a><a href="/dl/SHA256SUMS.txt">Checksums</a></span></div></footer>
+<script src="/vendor/lightweight-charts.js"></script>
+<script type="module" src="/js/common.js?v=5"></script>
+<script type="module" src="/js/app.js?v=6"></script>
+</body>
+</html>

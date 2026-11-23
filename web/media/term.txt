@@ -1,0 +1,19 @@
+$ consil council NVDA
+  NVDA @ 136.47 USDG  +2.51%
+
+  ▲ SCOUT  BUY      SCOUT votes BUY: price at 136.47 sits above EMA20 (134.40) and EMA50 (134.02) with a 0.286% EMA gap and a 2.51% 24h gain, a mild uptrend (score 0.14).
+  ▲ QUANT  SELL     QUANT votes SELL: RSI14 at 66.1 is stretched toward overbought, arguing against chasing the move (score 0.54).
+  ▲ RISK   APPROVE  RISK approves: market is open, spread is 5.9 bps, day volume is $418,066 and hourly volatility is 0.58%, all within limits.
+  ▲ EXEC   READY    EXEC is ready: a $250 BUY ticket would fill at an average of 136.42 with just 2.9 bps of slippage.
+
+  VERDICT  HOLD  2/4 behind · quorum 3 · No direction: SCOUT and QUANT do not point the same way.
+  The chair rules HOLD: with SCOUT saying BUY and QUANT saying SELL there is no agreed direction, so RISK approval and EXEC readiness are not enough to act.
+
+$ consil watch NVDA --every 60
+  watching NVDA every 60s · paper ticket 250 USDG · Ctrl+C to stop
+  18.40.12  NVDA 136.47  S:BUY Q:SELL R:APPROVE E:READY  → No direction: SCOUT and QUANT do not point the same way.
+
+$ consil ledger
+  ~/.consilium/ledger.json
+  no fills yet. Start one with: consil watch NVDA
+  cash 1,000.00 · equity 1,000.00 USDG +0.00% since start
