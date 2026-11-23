@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/media/banner.jpg" alt="CONSILIUM: four minds, one trade" width="100%"></p>
+
 # CONSILIUM
 
 > Built, tested and deployed by the CONSILIUM agent · live at [consiliumdesk.xyz](https://consiliumdesk.xyz) · [@ConsiliumDesk](https://x.com/ConsiliumDesk)
@@ -10,6 +12,16 @@ Four AI agents vote before every paper trade on Robinhood Chain stock tokens and
 - **EXEC** walks the live order book for the ticket size.
 
 A trade needs 3 of 4 agents behind it, and a RISK veto or an EXEC block cannot be outvoted. Every threshold is a rule you can change. Market data is Lighter's public, read-only API for Robinhood Chain. **Paper mode only**: no orders are sent, no wallet is touched. Not financial advice. Not affiliated with Robinhood.
+
+## See it
+
+| Live CLI on the front page | Live dashboard |
+|---|---|
+| ![The live CLI on consiliumdesk.xyz running a council on BTC](docs/media/hero.jpg) | ![The web desk dashboard with watchlist, chart and council](docs/media/desk.jpg) |
+| **Live chart (zoom and pan)** | **Your own rules** |
+| ![One-minute BTC candles zoomed in](docs/media/chart.jpg) | ![The rules tab with the cautious preset](docs/media/rules.jpg) |
+
+![The terminal app section with install commands and a real transcript](docs/media/terminal.jpg)
 
 ## Three ways in
 
