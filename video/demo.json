@@ -19,7 +19,7 @@
   },
   "scenes": [
     {
-      "say": "This is Consilium. Four AI agents vote before any paper trade, on Robinhood Chain stock tokens and on crypto. The desk is live right on the front page.",
+      "say": "So this is Consilium. Four AI agents look at every trade, on Robinhood Chain stocks and on crypto, and the desk is live right here on the front page.",
       "steps": [
         [
           "goto",
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "say": "Type a command, just like the terminal app. Here the four agents vote on Bitcoin.",
+      "say": "You can just type a command. Let's have them vote on Bitcoin.",
       "steps": [
         [
           "type",
@@ -61,7 +61,7 @@
       ]
     },
     {
-      "say": "Scout reads the trend, Quant reads the stretch, Risk holds a veto nobody can outvote, and Exec walks the live order book.",
+      "say": "Scout watches the trend. Quant checks if the move's stretched. Risk can veto anything, and Exec makes sure the order book can actually take the trade.",
       "steps": [
         [
           "glide",
@@ -93,7 +93,7 @@
       ]
     },
     {
-      "say": "The web desk is a live dashboard. Paper equity, open positions and how every market on the watchlist is voting, with stocks and crypto side by side.",
+      "say": "The web desk is a live dashboard. Your paper balance, your positions, and how every market on your list is voting. Stocks and crypto, side by side.",
       "steps": [
         [
           "goto",
@@ -133,7 +133,7 @@
       ]
     },
     {
-      "say": "The chart is live. Switch to one minute candles, zoom in, and it keeps updating every few seconds.",
+      "say": "The chart's live too. Drop to one-minute candles, zoom in, and it just keeps moving.",
       "steps": [
         [
           "click",
@@ -168,7 +168,7 @@
       ]
     },
     {
-      "say": "The rules are yours. Load the cautious preset, and the agents vote again with a quorum of four and tighter limits.",
+      "say": "And the rules are yours. Pick cautious, and now all four have to agree, with tighter limits.",
       "steps": [
         [
           "click",
@@ -189,7 +189,7 @@
       ]
     },
     {
-      "say": "Then ask any agent directly. Each one answers from its own role, with your rules and live data.",
+      "say": "Then just ask an agent. Risk tells you exactly why it would, or wouldn't, block the trade.",
       "steps": [
         [
           "click",
@@ -221,7 +221,7 @@
       ]
     },
     {
-      "say": "Prefer your own machine? Download the Windows app, the zip for Mac and Linux, or install it with one line.",
+      "say": "Rather run it on your own machine? Grab the Windows app, the zip for Mac and Linux, or install it with one line.",
       "steps": [
         [
           "goto",
@@ -250,5 +250,12 @@
   },
   "chrome_args": [
     "--host-resolver-rules=MAP consiliumdesk.xyz:80 127.0.0.1:5120"
-  ]
+  ],
+  "tts": {
+    "provider": "elevenlabs",
+    "voice_id": "iP95p4xoKVk53GoZ742B",
+    "model": "eleven_v4",
+    "stability": 0.38,
+    "style": 0.3
+  }
 }

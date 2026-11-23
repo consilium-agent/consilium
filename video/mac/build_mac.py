@@ -2,7 +2,6 @@
 # that replays real `consil` output (captured to t-*.ansi), then the end card.
 #   python video/mac/build_mac.py      (needs video/out/consilium-demo.mp4)
 import asyncio, html, os, re, subprocess, tempfile
-import edge_tts
 from playwright.sync_api import sync_playwright
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -12,8 +11,8 @@ OUT = os.path.join(VIDEO, "out", "consilium-demo-mac.mp4")
 TMP = tempfile.mkdtemp(prefix="macdemo-")
 W, H = 1920, 1080
 END_CARD = 3.6
-VOICE = "en-US-ChristopherNeural"
-SAY = "On a Mac, one line installs the terminal app. Then the same four agents vote right in Terminal: Bitcoin first, then the crypto markets, then a straight question to the risk agent."
+VOICE_ID = "iP95p4xoKVk53GoZ742B"   # ElevenLabs "Chris": casual, conversational
+SAY = "On a Mac it's one line to install. Then it's the same four agents, right in Terminal. Bitcoin first, then the crypto markets, and a straight answer from Risk."
 
 run = lambda *a: subprocess.run(a, check=True, capture_output=True)
 dur = lambda p: float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", p]).strip())
@@ -141,7 +140,15 @@ window.show=(body,cursor)=>{{o.innerHTML=body+(cursor?'<span class="cur"></span>
 
 
 async def tts(text, path):
-    await edge_tts.Communicate(text, VOICE, rate="-4%").save(path)
+    """ElevenLabs (same voice as the web demo); the key is read from ~/.elevenlabs_key."""
+    import json, urllib.request
+    key = open(os.path.join(os.path.expanduser("~"), ".elevenlabs_key"), encoding="utf-8").read().strip()
+    body = json.dumps({"text": text, "model_id": "eleven_v4",
+                       "voice_settings": {"stability": 0.38, "similarity_boost": 0.8, "style": 0.3, "use_speaker_boost": True}}).encode()
+    req = urllib.request.Request(f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}?output_format=mp3_44100_128", data=body,
+                                 headers={"xi-api-key": key, "content-type": "application/json"})
+    with urllib.request.urlopen(req, timeout=120) as r, open(path, "wb") as f:
+        f.write(r.read())
 
 
 def main():
