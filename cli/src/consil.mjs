@@ -18,7 +18,7 @@ const HOME = process.env.CONSIL_HOME || join(homedir(), ".consilium");
 const LEDGER = join(HOME, "ledger.json");
 const CONFIG = join(HOME, "config.json");
 
-const tty = process.stdout.isTTY && !process.env.NO_COLOR;
+const tty = (process.stdout.isTTY || Boolean(process.env.FORCE_COLOR)) && !process.env.NO_COLOR;
 const paint = (code) => (s) => (tty ? `\x1b[${code}m${s}\x1b[0m` : String(s));
 const c = { dim: paint("2"), bold: paint("1"), ember: paint("38;5;208"), green: paint("38;5;78"), red: paint("38;5;203"), gold: paint("38;5;179"), cyan: paint("38;5;80") };
 const AGENT_COLOR = { scout: c.ember, quant: c.gold, risk: c.green, exec: c.cyan };
