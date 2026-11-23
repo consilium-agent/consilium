@@ -20,7 +20,8 @@ grep -q "\"https://$DOMAIN\"" "$ROOT/dist/manifest.json" || { echo "!! dist/ was
 echo "→ release $STAMP"
 ( cd "$ROOT" && tar -czf - --exclude=node_modules/esbuild --exclude=node_modules/@esbuild --exclude=node_modules/postject --exclude=node_modules/.bin package.json server web dist cli/install.sh cli/install.ps1 node_modules ) | $SSH "set -e
   id consilium >/dev/null 2>&1 || useradd --system --no-create-home --shell /usr/sbin/nologin consilium
-  mkdir -p /opt/consilium/releases/$STAMP /etc/consilium && tar -xzf - -C /opt/consilium/releases/$STAMP
+  mkdir -p /opt/consilium/releases/$STAMP /etc/consilium /var/lib/consilium && tar -xzf - -C /opt/consilium/releases/$STAMP
+  chown -R consilium:consilium /var/lib/consilium && chmod 750 /var/lib/consilium
   ln -sfn /opt/consilium/releases/$STAMP /opt/consilium/current && chmod -R a+rX /opt/consilium
   ls -1dt /opt/consilium/releases/* | tail -n +3 | xargs -r rm -rf"
 
@@ -28,6 +29,15 @@ if ! $SSH "grep -q '^ANTHROPIC_API_KEY=' /etc/consilium/site.env 2>/dev/null"; t
   [ -s "$HOME/.anthropic_key" ] || { echo "!! no ~/.anthropic_key on this machine"; exit 1; }
   { printf 'PORT=%s\nHOST=127.0.0.1\nTRUST_PROXY=1\nSITE_URL=https://%s\nANTHROPIC_API_KEY=' "$PORT" "$DOMAIN"; cat "$HOME/.anthropic_key"; printf '\n'; } \
     | $SSH "umask 077; cat > /etc/consilium/site.env"
+fi
+# admin panel (/admin): data dir + password kept in site.env, copy saved next to this script (gitignored)
+$SSH "grep -q '^DATA_DIR=' /etc/consilium/site.env || printf 'DATA_DIR=/var/lib/consilium\nCOOKIE_SECURE=true\n' >> /etc/consilium/site.env"
+PWFILE="$ROOT/ADMIN-PASSWORD.txt"
+if ! $SSH "grep -q '^ADMIN_PASSWORD=' /etc/consilium/site.env"; then
+  PW=$(head -c 18 /dev/urandom | base64 | tr -d '/+=' | cut -c1-20)
+  printf 'ADMIN_PASSWORD=%s\n' "$PW" | $SSH "cat >> /etc/consilium/site.env"
+  printf 'CONSILIUM admin\nurl: https://%s/admin\npassword: %s\n' "$DOMAIN" "$PW" > "$PWFILE"
+  echo "→ admin password saved to $PWFILE"
 fi
 $SSH "chmod 600 /etc/consilium/site.env"
 
@@ -46,6 +56,7 @@ MemoryHigh=110M
 MemoryMax=140M
 NoNewPrivileges=true
 ProtectSystem=strict
+ReadWritePaths=/var/lib/consilium
 ProtectHome=true
 PrivateTmp=true
 [Install]

@@ -10,6 +10,7 @@ import { homedir } from "node:os";
 import { convene, snapshot, marketContext, normalizeRules, RULE_BOUNDS, DEFAULT_RULES } from "./council.mjs";
 import { getCandles, marketBySymbol } from "./lighter.mjs";
 import { makeAi, MODEL, AGENTS } from "./ai.mjs";
+import { initSite, siteSettings, updateSettings, login, logout, isAdmin, cookie } from "./site.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEB = join(ROOT, "web");
@@ -38,7 +39,7 @@ const TYPES = {
   ".zip": "application/zip", ".exe": "application/vnd.microsoft.portable-executable", ".sh": "text/plain; charset=utf-8",
   ".ps1": "text/plain; charset=utf-8", ".txt": "text/plain; charset=utf-8",
 };
-const PAGES = { "/": "index.html", "/app": "app.html", "/docs": "docs.html", "/download": "download.html" };
+const PAGES = { "/": "index.html", "/app": "app.html", "/docs": "docs.html", "/download": "download.html", "/admin": "admin.html" };
 
 const SECURITY_HEADERS = {
   "x-content-type-options": "nosniff",
@@ -141,6 +142,22 @@ async function ask(req, res, ip) {
   res.end();
 }
 
+// Admin: same-origin JSON only; the session lives in an HttpOnly cookie.
+async function admin(req, res, p, ip) {
+  const noStore = { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" };
+  const reply = (status, data, extra = {}) => send(res, status, JSON.stringify(data), { ...noStore, ...extra });
+  if (req.method === "POST" && p === "/v1/admin/login") {
+    const body = await readBody(req, 2000);
+    const t = login(ip, body.password);
+    return reply(200, { ok: true }, { "set-cookie": cookie(t) });
+  }
+  if (req.method === "POST" && p === "/v1/admin/logout") { logout(req); return reply(200, { ok: true }, { "set-cookie": cookie("", 0) }); }
+  if (!isAdmin(req)) return reply(401, { ok: false, error: "Log in first." });
+  if (req.method === "GET" && p === "/v1/admin/settings") return reply(200, { ok: true, settings: siteSettings() });
+  if (req.method === "PUT" && p === "/v1/admin/settings") return reply(200, { ok: true, settings: updateSettings(await readBody(req, 4000)) });
+  return reply(404, { ok: false, error: "not found" });
+}
+
 async function api(req, res, url) {
   const ip = clientIp(req);
   if (req.method === "OPTIONS") return send(res, 204, "", { "access-control-allow-origin": "*", "access-control-allow-methods": "GET, POST", "access-control-allow-headers": "content-type" });
@@ -164,6 +181,7 @@ async function api(req, res, url) {
     return json(res, 200, { ok: true, symbol: mk.symbol, pair: mk.pair, res: res1, candles: await getCandles(mk.marketId, res1, count) });
   }
   if (p === "/v1/ask" && req.method === "POST") return ask(req, res, ip);
+  if (p.startsWith("/v1/admin/")) return admin(req, res, p, ip);
   return fail(res, 404, "not found");
 }
 
@@ -220,7 +238,7 @@ const server = http.createServer(async (req, res) => {
       const script = await readFile(join(ROOT, "cli", url.pathname.slice(1)), "utf8");
       return send(res, 200, script.replaceAll("__SITE__", siteOrigin(req)), { "content-type": "text/plain; charset=utf-8", "cache-control": "no-cache" });
     }
-    if (url.pathname === "/site.json") return await file(req, res, WEB, "site.json", "no-cache");
+    if (url.pathname === "/site.json") return send(res, 200, JSON.stringify(siteSettings()), { "content-type": "application/json; charset=utf-8", "cache-control": "no-cache" });
     const page = PAGES[url.pathname.replace(/\/$/, "") || "/"];
     if (page) return await file(req, res, WEB, page, "no-cache");
     return await file(req, res, WEB, decodeURIComponent(url.pathname), "public, max-age=300");
@@ -231,4 +249,5 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
+initSite(join(WEB, "site.json"));
 server.listen(PORT, HOST, () => console.log(`CONSILIUM desk on http://${HOST}:${PORT} (model ${hasModel() ? "online" : "offline"})`));

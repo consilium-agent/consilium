@@ -476,3 +476,6 @@ main, .hd, .meta, footer { position: relative; z-index: 2; }
   .js .sw { opacity: 1; transform: none; }
   html { scroll-behavior: auto; }
 }
+
+.adm-in { display: block; width: 100%; margin-top: 8px; background: var(--paper); color: var(--ink); border: 1px solid var(--line-2); padding: 12px; font: 500 14px/1.2 var(--mono); }
+.adm-in:focus { border-color: var(--ember); outline: none; }

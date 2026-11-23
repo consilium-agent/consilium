@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin · CONSILIUM</title>
+<meta name="description" content="Desk settings."><meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Admin · CONSILIUM">
+<meta property="og:description" content="Four AI agents vote before every paper trade. Web desk, Windows app, terminal CLI and a public API.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://consiliumdesk.xyz/">
+<meta property="og:image" content="https://consiliumdesk.xyz/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ConsiliumDesk">
+<link rel="canonical" href="https://consiliumdesk.xyz/">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="/img/mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css?v=9">
+<script src="/js/boot.js"></script>
+</head>
+<body class="app">
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar" role="region" aria-label="Token"><span class="tb-tick">$CONSIL</span><code class="tb-ca" data-ca>CA soon</code><button type="button" class="tb-btn" data-copy-ca>Copy CA</button><a class="tb-btn hot" data-social="pons" href="#token">Buy on Pons ↗</a><a class="tb-link" data-social="x" href="#token">X ↗</a><a class="tb-link" data-social="github" href="#token">GitHub ↗</a></div>
+<header class="hd">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="CONSILIUM home"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="5" fill="#ece8e1"/><g fill="#0a0a0b"><rect x="6" y="6" width="6" height="6" rx=".6"/><rect x="13" y="6" width="6" height="6" rx=".6"/><rect x="20" y="6" width="6" height="6" rx=".6"/><rect x="6" y="13" width="6" height="6" rx=".6"/><rect x="6" y="20" width="6" height="6" rx=".6"/><rect x="13" y="20" width="6" height="6" rx=".6"/><rect x="20" y="20" width="6" height="6" rx=".6"/></g><rect x="13" y="13" width="6" height="6" rx=".6" fill="#e2531c"/></svg><span class="rule"></span><span class="word"><b>CONSILIUM</b><i>AGENT DESK</i></span></a>
+    <nav class="nav" id="nav" aria-label="Main"><a href="/app">Web desk</a><a href="/docs">Docs</a><a href="/download">Download</a><a href="/#council">Council</a><a href="/#api">API</a></nav>
+    <div class="act">
+      <a class="ico" data-social="x" href="#token" aria-label="CONSILIUM on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L2.8 2h6.4l4.4 5.9L18.9 2Zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20Z"/></svg></a>
+      <a class="ico" data-social="github" href="#token" aria-label="CONSILIUM on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7a3.9 3.9 0 0 1 1 2.7c0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg></a>
+      <a class="btn sm" href="/app">Open web desk</a>
+      <a class="btn sm solid" href="/download">Download</a>
+      <button class="burger" type="button" aria-controls="nav" aria-expanded="false" aria-label="Menu"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+<div class="page-head"><div class="wrap"><span class="kick">Admin</span><h1>Desk<br><span class="hot">settings.</span></h1></div></div>
+<main id="main" class="wrap" style="padding:40px 0 120px;max-width:760px">
+  <form id="login" class="board" style="padding:24px" hidden>
+    <label class="kick" for="pw">Password</label>
+    <input id="pw" type="password" autocomplete="current-password" class="adm-in" required>
+    <button class="btn solid" type="submit" style="margin-top:14px">Log in</button>
+    <p class="kick chg-dn" id="login-msg" style="margin-top:12px"></p>
+  </form>
+  <form id="panel" class="board" style="padding:24px;display:grid;gap:16px" hidden>
+    <label><span class="kick">Contract (CA)</span><input id="f-ca" class="adm-in" placeholder="0x… (42 characters)" spellcheck="false"></label>
+    <label><span class="kick">Buy on Pons link</span><input id="f-pons" class="adm-in" placeholder="https://…"></label>
+    <label><span class="kick">Chart link</span><input id="f-chart" class="adm-in" placeholder="https://…"></label>
+    <label><span class="kick">X</span><input id="f-x" class="adm-in" placeholder="@ConsiliumDesk or https://x.com/…"></label>
+    <label><span class="kick">GitHub</span><input id="f-github" class="adm-in" placeholder="https://github.com/…"></label>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn solid" type="submit">Save</button><button class="btn" type="button" id="logout">Log out</button><span id="save-msg" class="kick"></span></div>
+    <p class="kick">Empty fields show "Soon" on the site. Every value is checked on the server.</p>
+  </form>
+</main>
+<footer class="ft"><div class="wrap"><span>CONSILIUM · paper-mode AI trading desk · Not financial advice · Not affiliated with Robinhood</span><span><a href="/docs">Docs</a><a href="/download">Download</a><a href="/app">Web desk</a><a data-social="x" href="#token">X</a><a data-social="github" href="#token">GitHub</a><a href="/dl/SHA256SUMS.txt">Checksums</a></span></div></footer>
+<script type="module" src="/js/common.js?v=7"></script>
+<script type="module" src="/js/admin.js?v=1"></script>
+</body>
+</html>
