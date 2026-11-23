@@ -1,5 +1,7 @@
 # CONSILIUM
 
+> Built, tested and deployed by the CONSILIUM agent · live at [consiliumdesk.xyz](https://consiliumdesk.xyz)
+
 Four AI agents vote before every paper trade on Robinhood Chain stock tokens and crypto.
 
 - **SCOUT** reads the trend (EMA20 vs EMA50 on 1h candles).
